@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tune Up Homepage</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="grid-container">
+        <nav class="grid-nav">
+            <div class="nav-content">
+                <img src="Tune-Up-Website-Logo.png" alt="Tune Up Logo" class="logo">
+                <button class="hamburger">☰</button>
+                <div class="nav-links">
+                    <a href="index.html">Home</a>
+                    <a href="shows.html">Shows</a>
+                    <a href="forum.html">Forum</a>
+                    <a href="shop.html">Shop</a>
+                    <a href="auto-directory.html">Auto Directory</a>
+                </div>
+            </div>
+        </nav>
+        
+        <section class="grid-hero">
+            <picture>
+                <source media="(max-width: 768px)" srcset="pexels-car-line-up-mobile.jpg">
+                <source media="(max-width: 992px)" srcset="pexels-car-line-up-tablet.jpg">
+                <img src="pexels-car-line-up.jpg" 
+                     class="hero-image">
+            </picture>
+        </section>
+        
+        <main class="grid-main">
+            <article class="featured-content">
+                <h2>Welcome to Tune Up</h2>
+                <div class="image-grid">
+                    <div class="image-card">
+                        <div class="image-container">
+                            <img src="pexels-cobra.jpg" alt="Car show event" class="feature-image">
+                        </div>
+                        <p class="image-caption">Discover upcoming car shows and events in your area.</p>
+                    </div>
+                    <div class="image-card">
+                        <div class="image-container">
+                            <img src="pexels-shop.jpg" alt="Auto parts" class="feature-image">
+                        </div>
+                        <p class="image-caption">Find trusted auto repair shops and parts stores.</p>
+                    </div>
+                    <div class="image-card">
+                        <div class="image-container">
+                            <img src="pexels-Stick.jpg" alt="Car community" class="feature-image">
+                        </div>
+                        <p class="image-caption">Connect with other car enthusiasts and get advice.</p>
+                    </div>
+                    <div class="image-card">
+                        <div class="image-container">
+                            <img src="pexels-parts.jpg" alt="Parts exchange" class="feature-image">
+                        </div>
+                        <p class="image-caption">Buy & sell auto parts</p>
+                    </div>
+                </div>
+            </article>
+        </main>
+        
+        <aside class="grid-sidebar-left"></aside>
+        
+        <section class="grid-additional"></section>
+        
+        <footer class="grid-footer">
+            <p>&copy; 2025 Tune Up. All rights reserved.</p>
+        </footer>
+    </div>
+    <script>
+        document.querySelector('.hamburger').addEventListener('click', function() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+    </script>
+</body>
+</html>

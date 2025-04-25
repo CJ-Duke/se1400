@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shows | Tune Up</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="grid-container">
+        <nav class="grid-nav">
+            <div class="nav-content">
+                <img src="Tune-Up-Website-Logo.png" alt="Tune Up Logo" class="logo">
+                <button class="hamburger">☰</button>
+                <div class="nav-links">
+                    <a href="index.html">Home</a>
+                    <a href="shows.html" class="active">Shows</a>
+                    <a href="forum.html">Forum</a>
+                    <a href="shop.html">Shop</a>
+                    <a href="auto-directory.html">Auto Directory</a>
+                </div>
+            </div>
+        </nav>
+        
+        <section class="grid-hero">
+            <picture>
+                <source media="(max-width: 768px)" srcset="show-hero-mobile.jpg">
+                <source media="(max-width: 992px)" srcset="show-hero-tablet.jpg">
+                <img src="pexels-cobra.jpg" class="hero-image">
+            </picture>
+        </section>
+        
+        <main class="grid-main">
+            <article class="featured-content shows-container">
+                <h2>Upcoming Car Shows in St. George</h2>
+                
+                <div class="show-card">
+                    <h3>St. George Spring Classic</h3>
+                    <div class="show-date">May 15, 2025 | 9:00 AM - 4:00 PM</div>
+                    <div class="show-location">Town Square Park, St. George</div>
+                    <p>Annual showcase featuring 200+ vintage and classic cars with food trucks, live music, and vendor booths.</p>
+                </div>
+                
+                <div class="show-card">
+                    <h3>Southern Utah Hot Rod Festival</h3>
+                    <div class="show-date">June 22, 2025 | 10:00 AM - 6:00 PM</div>
+                    <div class="show-location">Dixie Convention Center</div>
+                    <p>Premier hot rod event featuring custom builds and a special burnout competition at 3 PM.</p>
+                </div>
+                
+                <div class="show-card">
+                    <h3>4th of July Car Parade</h3>
+                    <div class="show-date">July 4, 2025 | 5:00 PM - 8:00 PM</div>
+                    <div class="show-location">Main Street, St. George</div>
+                    <p>Patriotic car parade with prizes for best decorated vehicles in red, white, and blue.</p>
+                </div>
+                
+                <div class="show-card">
+                    <h3>Fall Colors Cruise-In</h3>
+                    <div class="show-date">September 12, 2025 | 8:00 AM - 2:00 PM</div>
+                    <div class="show-location">Snow Canyon State Park</div>
+                    <p>Scenic drive through Snow Canyon followed by picnic and car show amidst beautiful fall foliage.</p>
+                </div>
+                
+                <div class="show-card">
+                    <h3>St. George Truck Show</h3>
+                    <div class="show-date">October 18, 2025 | 10:00 AM - 5:00 PM</div>
+                    <div class="show-location">Dixie State University Parking Lot</div>
+                    <p>Showcase of lifted trucks, diesel rigs, and custom off-road vehicles with vendor exhibits.</p>
+                </div>
+            </article>
+        </main>
+        
+        <aside class="grid-sidebar-left"></aside>
+        <section class="grid-additional"></section>
+        <footer class="grid-footer">
+            <p>&copy; 2025 Tune Up. All rights reserved.</p>
+        </footer>
+    </div>
+    <script>
+        document.querySelector('.hamburger').addEventListener('click', function() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+    </script>
+</body>
+</html>

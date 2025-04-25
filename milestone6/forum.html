@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automotive Q&A | Tune Up</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="grid-container">
+        <nav class="grid-nav">
+            <div class="nav-content">
+                <img src="Tune-Up-Website-Logo.png" alt="Tune Up Logo" class="logo">
+                <button class="hamburger">☰</button>
+                <div class="nav-links">
+                    <a href="index.html">Home</a>
+                    <a href="shows.html">Shows</a>
+                    <a href="forum.html" class="active">Forum</a>
+                    <a href="shop.html">Shop</a>
+                    <a href="auto-directory.html">Auto Directory</a>
+                </div>
+            </div>
+        </nav>
+        
+        <section class="grid-hero">
+            <picture>
+                <source media="(max-width: 768px)" srcset="forum-hero-mobile.jpg">
+                <source media="(max-width: 992px)" srcset="forum-hero-tablet.jpg">
+                <img src="pexels-Stick.jpg" class="hero-image">
+            </picture>
+        </section>
+        
+        <main class="grid-main">
+            <article class="featured-content forum-container">
+                <div class="forum-header">
+                    <h2>Automotive Q&A</h2>
+                    <button class="new-post-btn" id="newPostBtn">+ New Question</button>
+                </div>
+                
+                <div class="post-form" id="postForm">
+                    <textarea placeholder="What's your automotive question?" rows="4" id="postContent"></textarea>
+                    <button id="submitPost">Post Question</button>
+                </div>
+                
+                <div id="postsContainer">
+                    <div class="empty-state">
+                        <h3>No questions yet</h3>
+                        <p>Be the first to ask a question about cars, repairs, or modifications!</p>
+                    </div>
+                </div>
+            </article>
+        </main>
+        
+        <aside class="grid-sidebar-left"></aside>
+        <section class="grid-additional"></section>
+        <footer class="grid-footer">
+            <p>&copy; 2025 Tune Up. All rights reserved.</p>
+        </footer>
+    </div>
+    <script>
+        document.querySelector('.hamburger').addEventListener('click', function() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+        
+        // Forum functionality
+        const newPostBtn = document.getElementById('newPostBtn');
+        const postForm = document.getElementById('postForm');
+        const submitPost = document.getElementById('submitPost');
+        const postsContainer = document.getElementById('postsContainer');
+        let posts = [];
+        let votedPosts = new Set();
+        
+        newPostBtn.addEventListener('click', function() {
+            postForm.style.display = postForm.style.display === 'block' ? 'none' : 'block';
+        });
+        
+        submitPost.addEventListener('click', function() {
+            const textarea = document.getElementById('postContent');
+            const content = textarea.value.trim();
+            
+            if (content !== '') {
+                // Create new post
+                const newPost = {
+                    id: Date.now(),
+                    author: "You",
+                    content: content,
+                    time: "Just now",
+                    upvotes: 0,
+                    downvotes: 0,
+                    comments: []
+                };
+                
+                posts.unshift(newPost);
+                renderPosts();
+                
+                // Reset form
+                textarea.value = '';
+                postForm.style.display = 'none';
+                
+                // Remove empty state if first post
+                if (posts.length === 1) {
+                    postsContainer.querySelector('.empty-state').remove();
+                }
+            }
+        });
+        
+        function renderPosts() {
+            postsContainer.innerHTML = '';
+            
+            if (posts.length === 0) {
+                postsContainer.innerHTML = `
+                    <div class="empty-state">
+                        <h3>No questions yet</h3>
+                        <p>Be the first to ask a question about cars, repairs, or modifications!</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            posts.forEach(post => {
+                const postElement = document.createElement('div');
+                postElement.className = 'post-card';
+                postElement.dataset.postid = post.id;
+                
+                postElement.innerHTML = `
+                    <div class="post-header">
+                        <span class="post-author">${post.author}</span>
+                        <span class="post-time">${post.time}</span>
+                    </div>
+                    <div class="post-content">
+                        <h3>${post.content}</h3>
+                    </div>
+                    <div class="post-actions">
+                        <button class="vote-btn upvote ${votedPosts.has(post.id + '-up') ? 'active disabled' : ''}">
+                            ▲ <span class="vote-count">${post.upvotes}</span>
+                        </button>
+                        <button class="vote-btn downvote ${votedPosts.has(post.id + '-down') ? 'active disabled' : ''}">
+                            ▼ <span class="vote-count">${post.downvotes}</span>
+                        </button>
+                        <button class="comment-btn toggle-comments">
+                            💬 <span class="comment-count">${post.comments.length}</span> comments
+                        </button>
+                    </div>
+                    <div class="comments-section">
+                        ${post.comments.map(comment => `
+                            <div class="comment">
+                                <div class="post-header">
+                                    <span class="post-author">${comment.author}</span>
+                                    <span class="post-time">${comment.time}</span>
+                                </div>
+                                <p>${comment.content}</p>
+                            </div>
+                        `).join('')}
+                        <div class="comment-form">
+                            <textarea placeholder="Add your answer..." rows="2" class="comment-input"></textarea>
+                            <button class="add-comment">Post Answer</button>
+                        </div>
+                    </div>
+                `;
+                
+                postsContainer.appendChild(postElement);
+            });
+            
+            // Reattach event listeners
+            attachEventListeners();
+        }
+        
+        function attachEventListeners() {
+            // Voting system
+            document.querySelectorAll('.vote-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    if (this.classList.contains('disabled')) return;
+                    
+                    const postId = parseInt(this.closest('.post-card').dataset.postid);
+                    const isUpvote = this.classList.contains('upvote');
+                    const voteKey = postId + (isUpvote ? '-up' : '-down');
+                    
+                    // Find the post
+                    const post = posts.find(p => p.id === postId);
+                    if (!post) return;
+                    
+                    // Update vote count
+                    if (isUpvote) {
+                        post.upvotes++;
+                    } else {
+                        post.downvotes++;
+                    }
+                    
+                    // Mark as voted
+                    votedPosts.add(voteKey);
+                    this.classList.add('active', 'disabled');
+                    
+                    // Disable the opposite vote if it exists
+                    const oppositeBtn = this.classList.contains('upvote') 
+                        ? this.nextElementSibling 
+                        : this.previousElementSibling;
+                    
+                    if (oppositeBtn.classList.contains('active')) {
+                        if (isUpvote) {
+                            post.downvotes--;
+                        } else {
+                            post.upvotes--;
+                        }
+                        oppositeBtn.classList.remove('active');
+                        votedPosts.delete(postId + (isUpvote ? '-down' : '-up'));
+                    }
+                    
+                    // Update display
+                    this.querySelector('.vote-count').textContent = isUpvote ? post.upvotes : post.downvotes;
+                    if (oppositeBtn) {
+                        oppositeBtn.querySelector('.vote-count').textContent = isUpvote ? post.downvotes : post.upvotes;
+                    }
+                });
+            });
+            
+            // Comment toggle system
+            document.querySelectorAll('.toggle-comments').forEach(button => {
+                button.addEventListener('click', function() {
+                    const commentsSection = this.closest('.post-card').querySelector('.comments-section');
+                    commentsSection.style.display = commentsSection.style.display === 'block' ? 'none' : 'block';
+                });
+            });
+            
+            // Add comment functionality
+            document.querySelectorAll('.add-comment').forEach(button => {
+                button.addEventListener('click', function() {
+                    const commentInput = this.previousElementSibling;
+                    const content = commentInput.value.trim();
+                    
+                    if (content !== '') {
+                        const postId = parseInt(this.closest('.post-card').dataset.postid);
+                        const post = posts.find(p => p.id === postId);
+                        
+                        if (post) {
+                            post.comments.push({
+                                author: "You",
+                                content: content,
+                                time: "Just now"
+                            });
+                            
+                            // Update comment count
+                            const commentCount = this.closest('.post-card').querySelector('.comment-count');
+                            commentCount.textContent = post.comments.length;
+                            
+                            // Add new comment to display
+                            const commentsContainer = this.closest('.comments-section').querySelector('.comment-form').previousElementSibling;
+                            const newComment = document.createElement('div');
+                            newComment.className = 'comment';
+                            newComment.innerHTML = `
+                                <div class="post-header">
+                                    <span class="post-author">You</span>
+                                    <span class="post-time">Just now</span>
+                                </div>
+                                <p>${content}</p>
+                            `;
+                            commentsContainer.appendChild(newComment);
+                            
+                            commentInput.value = '';
+                        }
+                    }
+                });
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto Directory | Tune Up</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+</head>
+<body>
+    <div class="grid-container">
+        <nav class="grid-nav">
+            <div class="nav-content">
+                <img src="Tune-Up-Website-Logo.png" alt="Tune Up Logo" class="logo">
+                <button class="hamburger">☰</button>
+                <div class="nav-links">
+                    <a href="index.html">Home</a>
+                    <a href="shows.html">Shows</a>
+                    <a href="forum.html">Forum</a>
+                    <a href="shop.html">Shop</a>
+                    <a href="auto-directory.html" class="active">Auto Directory</a>
+                </div>
+            </div>
+        </nav>
+        
+        <section class="grid-hero">
+            <picture>
+                <source media="(max-width: 768px)" srcset="directory-hero-mobile.jpg">
+                <source media="(max-width: 992px)" srcset="directory-hero-tablet.jpg">
+                <img src="pexels-parts.jpg" class="hero-image">
+            </picture>
+        </section>
+        
+        <main class="grid-main">
+            <article class="featured-content directory-container">
+                <h2>St. George Auto Services</h2>
+                
+                <div class="search-filter">
+                    <input type="text" placeholder="Search auto services..." id="searchInput">
+                    <select id="serviceFilter">
+                        <option value="all">All Services</option>
+                        <option value="repair">General Repair</option>
+                        <option value="tires">Tires</option>
+                        <option value="transmission">Transmission</option>
+                        <option value="electric">Auto Electric</option>
+                        <option value="detailing">Detailing</option>
+                    </select>
+                </div>
+                
+                <div id="directoryMap"></div>
+                
+                <div class="business-card" data-services="repair">
+                    <h3 class="business-name">Desert Auto Repair</h3>
+                    <div class="business-info">
+                        <p>145 E St. George Blvd, St. George, UT 84770</p>
+                        <p>(435) 673-5555</p>
+                    </div>
+                    <div>
+                        <span class="service-tag">Engine Repair</span>
+                        <span class="service-tag">Brakes</span>
+                        <span class="service-tag">Diagnostics</span>
+                    </div>
+                </div>
+                
+                <div class="business-card" data-services="tires">
+                    <h3 class="business-name">Red Rock Tire & Auto</h3>
+                    <div class="business-info">
+                        <p>305 N 3050 E, St. George, UT 84790</p>
+                        <p>(435) 688-1212</p>
+                    </div>
+                    <div>
+                        <span class="service-tag">Tires</span>
+                        <span class="service-tag">Alignments</span>
+                        <span class="service-tag">Oil Changes</span>
+                    </div>
+                </div>
+                
+                <div class="business-card" data-services="transmission">
+                    <h3 class="business-name">Precision Transmission</h3>
+                    <div class="business-info">
+                        <p>1711 S Main St, St. George, UT 84770</p>
+                        <p>(435) 652-8888</p>
+                    </div>
+                    <div>
+                        <span class="service-tag">Transmission</span>
+                        <span class="service-tag">Clutch</span>
+                        <span class="service-tag">Differentials</span>
+                    </div>
+                </div>
+                
+                <div class="business-card" data-services="electric">
+                    <h3 class="business-name">St. George Auto Electric</h3>
+                    <div class="business-info">
+                        <p>850 W 200 N, St. George, UT 84770</p>
+                        <p>(435) 673-2424</p>
+                    </div>
+                    <div>
+                        <span class="service-tag">Electrical</span>
+                        <span class="service-tag">Alternators</span>
+                        <span class="service-tag">Starters</span>
+                    </div>
+                </div>
+                
+                <div class="business-card" data-services="detailing">
+                    <h3 class="business-name">Desert Detailing</h3>
+                    <div class="business-info">
+                        <p>1234 S River Rd, St. George, UT 84790</p>
+                        <p>(435) 628-7777</p>
+                    </div>
+                    <div>
+                        <span class="service-tag">Detailing</span>
+                        <span class="service-tag">Ceramic Coating</span>
+                        <span class="service-tag">Paint Correction</span>
+                    </div>
+                </div>
+            </article>
+        </main>
+        
+        <aside class="grid-sidebar-left"></aside>
+        <section class="grid-additional"></section>
+        <footer class="grid-footer">
+            <p>&copy; 2025 Tune Up. All rights reserved.</p>
+        </footer>
+    </div>
+    
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        document.querySelector('.hamburger').addEventListener('click', function() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+        
+        // Initialize map
+        const map = L.map('directoryMap').setView([37.0965, -113.5684], 13);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+        
+        // Add markers for businesses
+        const businesses = [
+            {
+                name: "Desert Auto Repair",
+                lat: 37.1097,
+                lng: -113.5834,
+                address: "145 E St. George Blvd",
+                phone: "(435) 673-5555"
+            },
+            {
+                name: "Red Rock Tire & Auto",
+                lat: 37.1196,
+                lng: -113.5312,
+                address: "305 N 3050 E",
+                phone: "(435) 688-1212"
+            },
+            {
+                name: "Precision Transmission",
+                lat: 37.0905,
+                lng: -113.5876,
+                address: "1711 S Main St",
+                phone: "(435) 652-8888"
+            },
+            {
+                name: "St. George Auto Electric",
+                lat: 37.1043,
+                lng: -113.5998,
+                address: "850 W 200 N",
+                phone: "(435) 673-2424"
+            },
+            {
+                name: "Desert Detailing",
+                lat: 37.0938,
+                lng: -113.5621,
+                address: "1234 S River Rd",
+                phone: "(435) 628-7777"
+            }
+        ];
+        
+        businesses.forEach(business => {
+            L.marker([business.lat, business.lng]).addTo(map)
+                .bindPopup(`<b>${business.name}</b><br>${business.address}<br>${business.phone}`);
+        });
+        
+        // Filter functionality
+        document.getElementById('serviceFilter').addEventListener('change', function() {
+            const filterValue = this.value;
+            const businessCards = document.querySelectorAll('.business-card');
+            
+            businessCards.forEach(card => {
+                if (filterValue === 'all' || card.getAttribute('data-services').includes(filterValue)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+        
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const businessCards = document.querySelectorAll('.business-card');
+            
+            businessCards.forEach(card => {
+                const name = card.querySelector('.business-name').textContent.toLowerCase();
+                const address = card.querySelector('.business-info').textContent.toLowerCase();
+                
+                if (name.includes(searchTerm) || address.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
